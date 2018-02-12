@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" value="text/html; charset=ISO-8859-1">
+	<style>
+		body{
+			color:#b8b8b8;
+			font-size: 20px;
+			font-family: "Helvetica Neue";
+			font-weight: 100;
+			font-size: medium;
+		}
+		#time {
+			padding-top: 3em;
+			width: 100%; 
+			text-align: center;
+		}
+		#clock {
+			color: #c56f59;
+		}
+		.battery {
+			width: 200px;
+			padding-top: 10px;
+			margin: 0 auto;
+		}
+		.line{
+		  position: absolute;
+			width: 10px;
+			height: 3px;
+			background-color: #c56f59;
+			margin-top:2px;
+			margin-bottom: 10px;
+			pointer-events:none;
+			border-radius: 1px;
+		}
+		.line:before{
+			position: absolute;
+			top:0px;
+			content: "";
+			width: 200px; /* 200px max */
+			height: 3px;
+			z-index: -1;
+			display: inline-block;
+			background-color: #b8b8b8;
+			border-radius: 1px;
+		}
+
+		#music {
+			margin-top: 65vh;
+			text-align: center;
+		}
+		#left {
+			width: 40px;
+			text-align: left;
+			display: inline-block;
+		}
+		#right {
+			width: 40px;
+			text-align: right;
+			display: inline-block;
+		}
+		#center {
+			width: 200px;
+			text-align: center;
+			display: inline-block;
+			font-size: small;
+		}
+		#highlight {
+			color: #c56f59;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id='time' style="margin-top: 10%;">Time is currently <span id="clock"></span></div>
+	<div class="battery"><div class="line"></div></div>
+	<div id="music"><span id="left"><</span><span id="center">Not Playing</span><span id="right">></span></div>
+
+	<script type="text/javascript" src="js/clock.js"></script>
+	<script type="text/javascript">
+		var doc = document,
+			timeDiv=doc.getElementById('clock');
+		clock({
+			twentyfour : false,
+			padzero : false,
+			refresh : 5000,
+			success: function(clock){
+				timeDiv.innerHTML = clock.hour() + ':' + clock.minute();
+			}
+		});
+
+
+		function mainUpdate(type){
+			if(type == "battery"){ //battery info
+				document.querySelector('.line').style.width = Math.round((batteryPercent / 100) * 200) + "px";
+			}
+			if(type == "music"){ //music info
+				if(isplaying){
+					if (album.startsWith("Listening on")){
+						temp = title.split('\u2022');
+						artist = temp[1];
+						title = temp[0];
+					}
+					doc.getElementById("center").innerHTML = "<span id='#highlight' style='color: #c56f59;'>"+title+"</span> "+ artist;
+				}else{
+					doc.getElementById("center").innerHTML = "Not Playing";
+				}
+			}
+		}
+	</script>
+
+	
+</body>
+</html>
